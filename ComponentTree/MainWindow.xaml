@@ -3,10 +3,29 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:ComponentTree"
+        xmlns:self="clr-namespace:ComponentTree.Model"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
     <Grid>
-        
+        <TreeView x:Name="TreeView1">
+            <TreeView.ItemTemplate>
+                <HierarchicalDataTemplate DataType="{x:Type self:Product}" ItemsSource="{Binding ProductCollection}">
+                    <StackPanel Orientation="Horizontal">
+                        <Image Source="Images/green.png" Margin="0,0,5,0" />
+                        <TextBlock Text="{Binding Designation}" />
+                        <TextBlock Text="{Binding Hyphen}"/>
+                        <TextBlock Text="{Binding Name}" />
+                        <StackPanel.ContextMenu>
+                            <ContextMenu>
+                                <MenuItem Header="Root component" Click="MenuItem_AddRoot"></MenuItem>
+                                <MenuItem Header="By parent" Click="MenuItem_Add"></MenuItem>
+                                <MenuItem Header="Rename"></MenuItem>
+                                <MenuItem Header="Delete"></MenuItem>
+                            </ContextMenu>
+                        </StackPanel.ContextMenu>
+                    </StackPanel>
+                </HierarchicalDataTemplate>
+            </TreeView.ItemTemplate>
+        </TreeView>
     </Grid>
 </Window>
