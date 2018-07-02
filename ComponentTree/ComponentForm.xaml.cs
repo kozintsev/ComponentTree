@@ -6,7 +6,7 @@ namespace ComponentTree
     /// <summary>
     /// Логика взаимодействия для ComponentForm.xaml
     /// </summary>
-    public partial class ComponentForm : Window
+    public partial class ComponentForm
     {
         private readonly long? _parentId;
 
@@ -29,6 +29,12 @@ namespace ComponentTree
                 return;
             }
 
+            if (!int.TryParse(TbQ.Text, out var result))
+            {
+                LabelMessage.Content = "Введите число в строку колличество";
+                return;
+            }
+
             var text = $"{tbDes.Text} - {tbName.Text}"; 
 
             var context = new Components();
@@ -41,11 +47,17 @@ namespace ComponentTree
             context.Component.Add(com);
             context.SaveChanges();
 
+
             var link = new Link
             {
                 IdParent = _parentId,
                 IdChild = com.Id
             };
+
+            if (result > 1)
+            {
+                link.Quantity = result;
+            }
 
             context.Link.Add(link);
 

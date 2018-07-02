@@ -14,5 +14,7 @@
         <Label Content="Обозначение" HorizontalAlignment="Left" Margin="10,6,0,0" VerticalAlignment="Top" Width="131"/>
         <Label Content="Наименвоание" HorizontalAlignment="Left" Margin="10,38,0,0" VerticalAlignment="Top"/>
         <Label Name="LabelMessage" Content="" HorizontalAlignment="Left" Margin="23,96,0,0" VerticalAlignment="Top"/>
+        <TextBox Name="TbQ" HorizontalAlignment="Left" Height="23" Margin="146,66,0,0" TextWrapping="Wrap" Text="1" VerticalAlignment="Top" Width="42"/>
+        <Label Content="Колличество" HorizontalAlignment="Left" Margin="10,62,0,0" VerticalAlignment="Top"/>
     </Grid>
 </Window>
