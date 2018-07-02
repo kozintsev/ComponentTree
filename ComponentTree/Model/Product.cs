@@ -13,6 +13,8 @@ namespace ComponentTree.Model
 
         public ObservableCollection<Product> ProductCollection { get; set; }
 
+        public long Id { get; set; }
+
         private string _designation;
         public string Designation
         {

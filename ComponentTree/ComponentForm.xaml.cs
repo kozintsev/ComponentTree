@@ -62,6 +62,9 @@ namespace ComponentTree
             context.Link.Add(link);
 
             context.SaveChanges();
+
+            DialogResult = true;
+
             Close();
         }
     }

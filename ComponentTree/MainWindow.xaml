@@ -7,7 +7,7 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
     <Grid>
-        <TreeView x:Name="TreeView1">
+        <TreeView x:Name="ProductsTreeView" TreeViewItem.Selected="ProductsTreeView_OnSelected">
             <TreeView.ContextMenu>
                 <ContextMenu>
                     <MenuItem Header="Root component" Click="MenuItem_AddRoot"></MenuItem>
