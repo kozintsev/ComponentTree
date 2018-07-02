@@ -12,7 +12,7 @@
         <Button Content="Ok" HorizontalAlignment="Right" Margin="0,0,89.6,48.4" Width="75" Height="19" VerticalAlignment="Bottom" Click="Button_Ok"/>
         <Button Content="Отмена" HorizontalAlignment="Right" Margin="0,0,9.6,48.4" VerticalAlignment="Bottom" Width="75" Click="Button_Close"/>
         <Label Content="Обозначение" HorizontalAlignment="Left" Margin="10,6,0,0" VerticalAlignment="Top" Width="131"/>
-        <Label Content="Наименвоание" HorizontalAlignment="Left" Margin="10,38,0,0" VerticalAlignment="Top"/>
+        <Label Content="Наименование" HorizontalAlignment="Left" Margin="10,38,0,0" VerticalAlignment="Top"/>
         <Label Name="LabelMessage" Content="" HorizontalAlignment="Left" Margin="23,96,0,0" VerticalAlignment="Top"/>
         <TextBox Name="TbQ" HorizontalAlignment="Left" Height="23" Margin="146,66,0,0" TextWrapping="Wrap" Text="1" VerticalAlignment="Top" Width="42"/>
         <Label Content="Колличество" HorizontalAlignment="Left" Margin="10,62,0,0" VerticalAlignment="Top"/>
