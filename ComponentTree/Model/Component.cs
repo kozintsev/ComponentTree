@@ -14,20 +14,8 @@ namespace ComponentTree.Model
     
     public partial class Component
     {
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public Component()
-        {
-            this.LinkChild = new HashSet<Link>();
-            this.LinkParent = new HashSet<Link>();
-        }
-    
         public long Id { get; set; }
         public string Name { get; set; }
         public string Designation { get; set; }
-    
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Link> LinkChild { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Link> LinkParent { get; set; }
     }
 }

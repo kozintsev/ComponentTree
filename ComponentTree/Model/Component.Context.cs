@@ -25,7 +25,7 @@ namespace ComponentTree.Model
             throw new UnintentionalCodeFirstException();
         }
     
-        public virtual DbSet<Component> Component { get; set; }
-        public virtual DbSet<Link> Link { get; set; }
+        public virtual DbSet<Component> Components { get; set; }
+        public virtual DbSet<Link> Links { get; set; }
     }
 }

@@ -5,10 +5,8 @@
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
       <Diagram DiagramId="5b1ee85e3b2a454c91e68e5f4bd6142d" Name="Diagram1">
-        <EntityTypeShape EntityType="componentsModel.Component" Width="1.5" PointX="2.25" PointY="0.625" IsExpanded="true" />
-        <EntityTypeShape EntityType="componentsModel.Link" Width="1.5" PointX="5.75" PointY="1.875" IsExpanded="true" />
-        <AssociationConnector Association="componentsModel.FK_Child" />
-        <AssociationConnector Association="componentsModel.FK_Parent" />
+        <EntityTypeShape EntityType="componentsModel.Component" Width="1.5" PointX="0.75" PointY="0.75" />
+        <EntityTypeShape EntityType="componentsModel.Link" Width="1.5" PointX="2.75" PointY="0.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

@@ -12,20 +12,28 @@ namespace ComponentTree
     {
         private TreeViewItem _selectedItem;
         private Product _selectProduct;
+        private readonly ApplicationViewModel _viewModel;
 
         public MainWindow()
         {
             InitializeComponent();
-            var viewModel = new ApplicationViewModel();
-            DataContext = viewModel;
-            ProductsTreeView.ItemsSource = viewModel.Products;
+            _viewModel = new ApplicationViewModel();
+            DataContext = _viewModel;
+            ProductsTreeView.ItemsSource = _viewModel.Products;
             CollectionViewSource.GetDefaultView(ProductsTreeView.ItemsSource).Refresh();
         }
 
         private void MenuItem_AddRoot(object sender, RoutedEventArgs e)
         {
             var form = new ComponentForm(null);
-            form.ShowDialog();
+            var result = form.ShowDialog();
+            if(!result.HasValue) return;
+            if(!result.Value) return;
+
+            if (form.Product == null) return;
+            _viewModel.Products.Add(form.Product);
+            CollectionViewSource.GetDefaultView(ProductsTreeView.ItemsSource).Refresh();
+
         }
 
         private void MenuItem_Add(object sender, RoutedEventArgs e)

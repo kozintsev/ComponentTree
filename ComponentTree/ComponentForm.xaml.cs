@@ -10,10 +10,13 @@ namespace ComponentTree
     {
         private readonly long? _parentId;
 
+        public Product Product { get; set; }
+
         public ComponentForm(long? parentId)
         {
             InitializeComponent();
             _parentId = parentId;
+            Product = null;
         }
 
         private void Button_Close(object sender, RoutedEventArgs e)
@@ -35,23 +38,24 @@ namespace ComponentTree
                 return;
             }
 
-            var text = $"{tbDes.Text} - {tbName.Text}"; 
-
             var context = new Components();
 
             var com = new Component()
             {
-                Name = text
+                Name = tbName.Text,
+                Designation = tbDes.Text,
             };
 
             context.Component.Add(com);
             context.SaveChanges();
 
+            Product = new Product {Id = com.Id, Designation = com.Designation, Name = com.Name};
 
             var link = new Link
             {
                 IdParent = _parentId,
-                IdChild = com.Id
+                IdChild = com.Id,
+                Quantity = 1
             };
 
             if (result > 1)

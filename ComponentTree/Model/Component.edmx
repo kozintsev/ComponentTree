@@ -4,71 +4,43 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-    <Schema Namespace="componentsModel.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2012" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
-  <EntityContainer Name="componentsModelStoreContainer">
-    <EntitySet Name="Component" EntityType="componentsModel.Store.Component" store:Type="Tables" Schema="dbo" />
-    <EntitySet Name="Link" EntityType="componentsModel.Store.Link" store:Type="Tables" Schema="dbo" />
-    <AssociationSet Name="FK_Child" Association="componentsModel.Store.FK_Child">
-      <End Role="Component" EntitySet="Component" />
-      <End Role="Link" EntitySet="Link" />
-    </AssociationSet>
-    <AssociationSet Name="FK_Parent" Association="componentsModel.Store.FK_Parent">
-      <End Role="Component" EntitySet="Component" />
-      <End Role="Link" EntitySet="Link" />
-    </AssociationSet>
-  </EntityContainer>
-  <EntityType Name="Component">
-    <Key>
-      <PropertyRef Name="Id" />
-    </Key>
-    <Property Name="Id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="Name" Type="nvarchar" Nullable="false" MaxLength="50" />
-  </EntityType>
-  <EntityType Name="Link">
-    <Key>
-      <PropertyRef Name="Id" />
-    </Key>
-    <Property Name="Id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="IdParent" Type="bigint" Nullable="true" />
-    <Property Name="IdChild" Type="bigint" Nullable="true" />
-    <Property Name="Quantity" Type="int" Nullable="false" />
-  </EntityType>
-  <Association Name="FK_Child">
-    <End Role="Component" Type="componentsModel.Store.Component" Multiplicity="0..1" />
-    <End Role="Link" Type="componentsModel.Store.Link" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="Component">
-        <PropertyRef Name="Id" />
-      </Principal>
-      <Dependent Role="Link">
-        <PropertyRef Name="IdChild" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_Parent">
-    <End Role="Component" Type="componentsModel.Store.Component" Multiplicity="0..1" />
-    <End Role="Link" Type="componentsModel.Store.Link" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="Component">
-        <PropertyRef Name="Id" />
-      </Principal>
-      <Dependent Role="Link">
-        <PropertyRef Name="IdParent" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-</Schema></edmx:StorageModels>
+    <Schema Namespace="componentsModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Components">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar(max)" />
+          <Property Name="Designation" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="Links">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="IdParent" Type="bigint" />
+          <Property Name="IdChild" Type="bigint" />
+          <Property Name="Quantity" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityContainer Name="componentsModelStoreContainer">
+          <EntitySet Name="Components" EntityType="Self.Components" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Links" EntityType="Self.Links" Schema="dbo" store:Type="Tables" />
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="componentsModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityContainer Name="componentsEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Components" EntityType="componentsModel.Component" />
+          <EntitySet Name="Links" EntityType="componentsModel.Link" />
+        </EntityContainer>
         <EntityType Name="Component">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
-          <NavigationProperty Name="LinkChild" Relationship="componentsModel.FK_Child" FromRole="Component" ToRole="Link" />
-          <NavigationProperty Name="LinkParent" Relationship="componentsModel.FK_Parent" FromRole="Component" ToRole="Link" />
+          <Property Name="Name" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Designation" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="Link">
           <Key>
@@ -77,69 +49,34 @@
           <Property Name="Id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="IdParent" Type="Int64" />
           <Property Name="IdChild" Type="Int64" />
-          <Property Name="Quantity" Type="Int32" Nullable="false" DefaultValue="1" />
+          <Property Name="Quantity" Type="Int32" Nullable="false" />
         </EntityType>
-        <EntityContainer Name="componentsEntities" annotation:LazyLoadingEnabled="true">
-          <EntitySet Name="Component" EntityType="Self.Component" />
-          <EntitySet Name="Link" EntityType="Self.Link" />
-          <AssociationSet Name="FK_Child" Association="componentsModel.FK_Child">
-            <End Role="Component" EntitySet="Component" />
-            <End Role="Link" EntitySet="Link" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Parent" Association="componentsModel.FK_Parent">
-            <End Role="Component" EntitySet="Component" />
-            <End Role="Link" EntitySet="Link" />
-          </AssociationSet>
-        </EntityContainer>
-        <Association Name="FK_Child">
-          <End Type="componentsModel.Component" Role="Component" Multiplicity="0..1" />
-          <End Type="componentsModel.Link" Role="Link" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Component">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="Link">
-              <PropertyRef Name="IdChild" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Parent">
-          <End Type="componentsModel.Component" Role="Component" Multiplicity="0..1" />
-          <End Type="componentsModel.Link" Role="Link" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Component">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="Link">
-              <PropertyRef Name="IdParent" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-      </Schema>
+        </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
     <edmx:Mappings>
     <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
   <EntityContainerMapping StorageEntityContainer="componentsModelStoreContainer" CdmEntityContainer="componentsEntities">
-    <EntitySetMapping Name="Component">
-      <EntityTypeMapping TypeName="IsTypeOf(componentsModel.Component)">
-        <MappingFragment StoreEntitySet="Component">
-          <ScalarProperty Name="Id" ColumnName="Id" />
-          <ScalarProperty Name="Name" ColumnName="Name" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
-    <EntitySetMapping Name="Link">
-      <EntityTypeMapping TypeName="IsTypeOf(componentsModel.Link)">
-        <MappingFragment StoreEntitySet="Link">
-          <ScalarProperty Name="Id" ColumnName="Id" />
-          <ScalarProperty Name="IdParent" ColumnName="IdParent" />
-          <ScalarProperty Name="IdChild" ColumnName="IdChild" />
-          <ScalarProperty Name="Quantity" ColumnName="Quantity" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
-  </EntityContainerMapping>
+          <EntitySetMapping Name="Components">
+            <EntityTypeMapping TypeName="componentsModel.Component">
+              <MappingFragment StoreEntitySet="Components">
+                <ScalarProperty Name="Designation" ColumnName="Designation" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Links">
+            <EntityTypeMapping TypeName="componentsModel.Link">
+              <MappingFragment StoreEntitySet="Links">
+                <ScalarProperty Name="Quantity" ColumnName="Quantity" />
+                <ScalarProperty Name="IdChild" ColumnName="IdChild" />
+                <ScalarProperty Name="IdParent" ColumnName="IdParent" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
 </Mapping></edmx:Mappings>
   </edmx:Runtime>
   <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
@@ -152,7 +89,7 @@
     <Options>
       <DesignerInfoPropertySet>
         <DesignerProperty Name="ValidateOnBuild" Value="true" />
-        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="EnablePluralization" Value="True" />
         <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
         <DesignerProperty Name="UseLegacyProvider" Value="False" />
         <DesignerProperty Name="CodeGenerationStrategy" Value="Нет" />

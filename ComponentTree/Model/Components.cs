@@ -6,8 +6,9 @@ namespace ComponentTree.Model
     {
         public Components() : base("components")
         {
-            Database.SetInitializer(
-                new DropCreateDatabaseIfModelChanges<Components>());
+            //Database.SetInitializer(
+            //    new DropCreateDatabaseIfModelChanges<Components>());
+            Database.SetInitializer<Components>(null);
         }
 
         public DbSet<Component> Component { get; set; }
