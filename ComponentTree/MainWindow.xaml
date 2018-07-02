@@ -8,6 +8,11 @@
         Title="MainWindow" Height="450" Width="800">
     <Grid>
         <TreeView x:Name="TreeView1">
+            <TreeView.ContextMenu>
+                <ContextMenu>
+                    <MenuItem Header="Root component" Click="MenuItem_AddRoot"></MenuItem>
+                </ContextMenu>
+            </TreeView.ContextMenu>
             <TreeView.ItemTemplate>
                 <HierarchicalDataTemplate DataType="{x:Type self:Product}" ItemsSource="{Binding ProductCollection}">
                     <StackPanel Orientation="Horizontal">
@@ -17,7 +22,6 @@
                         <TextBlock Text="{Binding Name}" />
                         <StackPanel.ContextMenu>
                             <ContextMenu>
-                                <MenuItem Header="Root component" Click="MenuItem_AddRoot"></MenuItem>
                                 <MenuItem Header="By parent" Click="MenuItem_Add"></MenuItem>
                                 <MenuItem Header="Rename"></MenuItem>
                                 <MenuItem Header="Delete"></MenuItem>

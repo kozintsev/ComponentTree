@@ -16,6 +16,7 @@ namespace ComponentTree
         private void MenuItem_AddRoot(object sender, RoutedEventArgs e)
         {
             var form = new ComponentForm(null);
+            form.ShowDialog();
         }
 
         private void MenuItem_Add(object sender, RoutedEventArgs e)

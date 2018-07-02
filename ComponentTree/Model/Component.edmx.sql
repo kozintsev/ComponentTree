@@ -2,7 +2,7 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, 2012 and Azure
 -- --------------------------------------------------
--- Date Created: 06/29/2018 13:30:15
+-- Date Created: 07/02/2018 12:37:11
 -- Generated from EDMX file: C:\Users\okozi\Documents\GitHub\ComponentTree\ComponentTree\Model\Component.edmx
 -- --------------------------------------------------
 
@@ -42,7 +42,8 @@ GO
 -- Creating table 'Component'
 CREATE TABLE [dbo].[Component] (
     [Id] bigint IDENTITY(1,1) NOT NULL,
-    [Name] nvarchar(50)  NOT NULL
+    [Name] nvarchar(50)  NOT NULL,
+    [Designation] nvarchar(max)  NOT NULL
 );
 GO
 
