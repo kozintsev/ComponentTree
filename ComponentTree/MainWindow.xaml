@@ -11,6 +11,7 @@
             <TreeView.ContextMenu>
                 <ContextMenu>
                     <MenuItem Header="Create Root Element" Click="MenuItem_AddRoot"></MenuItem>
+                    <Separator></Separator>
                     <MenuItem Header="Create a report" Click="MenuItem_CreateReport"></MenuItem>
                 </ContextMenu>
             </TreeView.ContextMenu>

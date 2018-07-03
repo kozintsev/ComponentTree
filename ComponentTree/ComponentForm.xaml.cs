@@ -1,4 +1,5 @@
 ﻿using System.Linq;
+using System.Threading.Tasks;
 using System.Windows;
 using ComponentTree.Model;
 
@@ -10,6 +11,7 @@ namespace ComponentTree
     public partial class ComponentForm
     {
         private readonly long? _parentId;
+        private readonly bool _isRename;
 
         public Product Product { get; set; }
 
@@ -21,6 +23,7 @@ namespace ComponentTree
             InitializeComponent();
             _parentId = null;
             Product = null;
+            _isRename = false;
         }
 
         /// <summary>
@@ -32,6 +35,7 @@ namespace ComponentTree
             InitializeComponent();
             _parentId = parentId;
             Product = null;
+            _isRename = false;
         }
         
         /// <summary>
@@ -43,6 +47,11 @@ namespace ComponentTree
             InitializeComponent();
             Product = product;
             _parentId = null;
+            _isRename = true;
+
+            tbDes.Text = product.Designation;
+            tbName.Text = product.Name;
+            TbQ.IsEnabled = false;
         }
 
         private void Button_Close(object sender, RoutedEventArgs e)
@@ -50,17 +59,64 @@ namespace ComponentTree
             Close();
         }
 
-        private void Create()
+        private async Task Create(string designation, string name, int q)
         {
+            var context = new Components();
 
+            var find = context.Component.FirstOrDefault(x => x.Designation == designation);
+
+            Component com;
+            // Ищем компоненте если не находим создаём новый (ищем по обозначению)
+            if (find == null)
+            {
+                com = new Component()
+                {
+                    Name = name,
+                    Designation = designation,
+                };
+
+                context.Component.Add(com);
+                await context.SaveChangesAsync();
+            }
+            else
+            {
+                com = find;
+            }
+
+            Product = new Product { Id = com.Id, Designation = com.Designation, Name = com.Name };
+
+            var link = new Link
+            {
+                IdParent = _parentId,
+                IdChild = com.Id,
+                Quantity = 1
+            };
+
+            if (q > 1)
+            {
+                link.Quantity = q;
+            }
+
+            context.Link.Add(link);
+
+            await context.SaveChangesAsync();
         }
 
-        private void Rename()
+        private static async Task Rename(string designation, string name)
         {
-
+            using (var context = new Components())
+            {
+                var find = context.Component.FirstOrDefault(x => x.Designation == designation);
+                if (find != null)
+                {
+                    find.Designation = designation;
+                    find.Name = name;
+                    await context.SaveChangesAsync();
+                }
+            }
         }
 
-        private void Button_Ok(object sender, RoutedEventArgs e)
+        private async void Button_Ok(object sender, RoutedEventArgs e)
         {
             if (string.IsNullOrWhiteSpace(tbDes.Text))
             {
@@ -77,50 +133,15 @@ namespace ComponentTree
             var designation = tbDes.Text.Trim();
             var name = tbName.Text.Trim();
 
-            var context = new Components();
-
-            var find = context.Component.FirstOrDefault(x => x.Designation == designation);
-
-            Component com;
-
-            // Ищем компоненте если не находим создаём новый (ищем по обозначению)
-
-            if (find == null)
+            if (_isRename)
             {
-                com = new Component()
-                {
-                    Name = name,
-                    Designation = designation,
-                };
-
-                context.Component.Add(com);
-                context.SaveChanges();
+                await Rename(designation, name);
             }
             else
             {
-                com = find;
+                await Create(designation, name, result);
             }
-
-            Product = new Product {Id = com.Id, Designation = com.Designation, Name = com.Name};
-
-            var link = new Link
-            {
-                IdParent = _parentId,
-                IdChild = com.Id,
-                Quantity = 1
-            };
-
-            if (result > 1)
-            {
-                link.Quantity = result;
-            }
-
-            context.Link.Add(link);
-
-            context.SaveChanges();
-
             DialogResult = true;
-
             Close();
         }
     }
