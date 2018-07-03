@@ -10,8 +10,8 @@
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="Name" Type="nvarchar(max)" />
-          <Property Name="Designation" Type="nvarchar" MaxLength="50" />
+          <Property Name="Name" Type="nvarchar(max)" StoreGeneratedPattern="Identity" />
+          <Property Name="Designation" Type="nvarchar" MaxLength="50" StoreGeneratedPattern="None" />
         </EntityType>
         <EntityType Name="Links">
           <Key>
@@ -39,8 +39,8 @@
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Name" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="Designation" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Name" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Designation" Type="String" MaxLength="50" FixedLength="false" Unicode="true" annotation:StoreGeneratedPattern="None" />
         </EntityType>
         <EntityType Name="Link">
           <Key>
@@ -49,7 +49,7 @@
           <Property Name="Id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="IdParent" Type="Int64" />
           <Property Name="IdChild" Type="Int64" />
-          <Property Name="Quantity" Type="Int32" Nullable="false" />
+          <Property Name="Quantity" Type="Int32" Nullable="false" DefaultValue="1" />
         </EntityType>
         </Schema>
     </edmx:ConceptualModels>

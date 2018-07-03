@@ -14,6 +14,12 @@ namespace ComponentTree.Model
     
     public partial class Link
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public Link()
+        {
+            this.Quantity = 1;
+        }
+    
         public long Id { get; set; }
         public Nullable<long> IdParent { get; set; }
         public Nullable<long> IdChild { get; set; }

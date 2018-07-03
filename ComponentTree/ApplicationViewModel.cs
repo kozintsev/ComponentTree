@@ -22,11 +22,56 @@ namespace ComponentTree
             }
         }
 
+        /// <summary>
+        /// Метод для загрузки дерева в память. Необходимо оптимизация! Оптимально подгружать дерево по мере раскрытия дерева
+        /// с автоподгрузкой 1-2 уровней
+        /// </summary>
+        /// <param name="components"></param>
         public void LazyTreeLoader(List<Model.Component> components)
         {
             foreach (var item in components)
             {
                 
+            }
+        }
+
+        /// <summary>
+        /// Рекурсивное удаление объектов из дерева, которое строится в памяти для отображении на TreeView
+        /// </summary>
+        /// <param name="products"></param>
+        /// <param name="id"></param>
+        private static void DeleteInTree(ICollection<Product> products, long id)
+        {
+            foreach (var item in products)
+            {
+                if (item.Id == id)
+                {
+                    products.Remove(item);
+                    break;
+                }
+                DeleteInTree(item.ProductCollection, id);
+            }
+        }
+
+        public void Delete(long id)
+        {
+            using (var context = new Components())
+            {
+                var obj = context.Component.FirstOrDefault(x => x.Id == id);
+                if (obj != null)
+                    context.Component.Remove(obj);
+                // todo: здесь также нужно удалить все связи и выполнить проверку, вообще можем ли мы удалить этот объект
+                // или необходимо удалить только связи
+            }
+
+            foreach (var product in Products)
+            {
+                if (product.Id == id)
+                {
+                    Products.Remove(product);
+                    break;
+                }
+                DeleteInTree(product.ProductCollection, id);
             }
         }
 
@@ -50,6 +95,7 @@ namespace ComponentTree
 
                     foreach (var link in linkChildren)
                     {
+                        // одна связь связывает 1 компонент
                         var childComponent = context.Component.FirstOrDefault(x => x.Id == link.IdChild);
                         if (childComponent != null)
                             prodColl.Add(new Product
@@ -66,8 +112,13 @@ namespace ComponentTree
                         Name = component.Name,
                         ProductCollection = prodColl
                     });
+
+                    // todo: тут мы должны получать детей-детей рекурсивно и добавлять их в
+                    // Products для этого можно использовать метод LazyTreeLoader
+
                 }
             }
+            context.Dispose();
         }
 
         public event PropertyChangedEventHandler PropertyChanged;

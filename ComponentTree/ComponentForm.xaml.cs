@@ -1,4 +1,5 @@
-﻿using System.Windows;
+﻿using System.Linq;
+using System.Windows;
 using ComponentTree.Model;
 
 namespace ComponentTree
@@ -12,16 +13,51 @@ namespace ComponentTree
 
         public Product Product { get; set; }
 
-        public ComponentForm(long? parentId)
+        /// <summary>
+        /// Создаём корневой объект
+        /// </summary>
+        public ComponentForm()
+        {
+            InitializeComponent();
+            _parentId = null;
+            Product = null;
+        }
+
+        /// <summary>
+        /// Создать объект
+        /// </summary>
+        /// <param name="parentId"></param>
+        public ComponentForm(long parentId)
         {
             InitializeComponent();
             _parentId = parentId;
             Product = null;
         }
+        
+        /// <summary>
+        /// Переименовать
+        /// </summary>
+        /// <param name="product"></param>
+        public ComponentForm(Product product)
+        {
+            InitializeComponent();
+            Product = product;
+            _parentId = null;
+        }
 
         private void Button_Close(object sender, RoutedEventArgs e)
         {
             Close();
+        }
+
+        private void Create()
+        {
+
+        }
+
+        private void Rename()
+        {
+
         }
 
         private void Button_Ok(object sender, RoutedEventArgs e)
@@ -38,16 +74,32 @@ namespace ComponentTree
                 return;
             }
 
+            var designation = tbDes.Text.Trim();
+            var name = tbName.Text.Trim();
+
             var context = new Components();
 
-            var com = new Component()
-            {
-                Name = tbName.Text,
-                Designation = tbDes.Text,
-            };
+            var find = context.Component.FirstOrDefault(x => x.Designation == designation);
 
-            context.Component.Add(com);
-            context.SaveChanges();
+            Component com;
+
+            // Ищем компоненте если не находим создаём новый (ищем по обозначению)
+
+            if (find == null)
+            {
+                com = new Component()
+                {
+                    Name = name,
+                    Designation = designation,
+                };
+
+                context.Component.Add(com);
+                context.SaveChanges();
+            }
+            else
+            {
+                com = find;
+            }
 
             Product = new Product {Id = com.Id, Designation = com.Designation, Name = com.Name};
 

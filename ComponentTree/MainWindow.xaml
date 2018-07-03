@@ -10,7 +10,8 @@
         <TreeView x:Name="ProductsTreeView" TreeViewItem.Selected="ProductsTreeView_OnSelected">
             <TreeView.ContextMenu>
                 <ContextMenu>
-                    <MenuItem Header="Root component" Click="MenuItem_AddRoot"></MenuItem>
+                    <MenuItem Header="Create Root Element" Click="MenuItem_AddRoot"></MenuItem>
+                    <MenuItem Header="Create a report" Click="MenuItem_CreateReport"></MenuItem>
                 </ContextMenu>
             </TreeView.ContextMenu>
             <TreeView.ItemTemplate>
@@ -22,9 +23,12 @@
                         <TextBlock Text="{Binding Name}" />
                         <StackPanel.ContextMenu>
                             <ContextMenu>
-                                <MenuItem Header="By parent" Click="MenuItem_Add"></MenuItem>
-                                <MenuItem Header="Rename"></MenuItem>
-                                <MenuItem Header="Delete"></MenuItem>
+                                <MenuItem Header="Create Root Element" Click="MenuItem_AddRoot"></MenuItem>
+                                <MenuItem Header="Add" Click="MenuItem_Add"></MenuItem>
+                                <MenuItem Header="Rename" Click="MenuItem_Rename"></MenuItem>
+                                <MenuItem Header="Delete" Click="MenuItem_Delete"></MenuItem>
+                                <Separator></Separator>
+                                <MenuItem Header="Create a report" Click="MenuItem_CreateReport"></MenuItem>
                             </ContextMenu>
                         </StackPanel.ContextMenu>
                     </StackPanel>

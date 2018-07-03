@@ -10,7 +10,6 @@ namespace ComponentTree
     /// </summary>
     public partial class MainWindow
     {
-        private TreeViewItem _selectedItem;
         private Product _selectProduct;
         private readonly ApplicationViewModel _viewModel;
 
@@ -25,7 +24,7 @@ namespace ComponentTree
 
         private void MenuItem_AddRoot(object sender, RoutedEventArgs e)
         {
-            var form = new ComponentForm(null);
+            var form = new ComponentForm();
             var result = form.ShowDialog();
             if(!result.HasValue) return;
             if(!result.Value) return;
@@ -44,6 +43,24 @@ namespace ComponentTree
             form.ShowDialog();
         }
 
+        private void MenuItem_CreateReport(object sender, RoutedEventArgs e)
+        {
+            
+        }
+
+        private void MenuItem_Rename(object sender, RoutedEventArgs e)
+        {
+            if (_selectProduct == null) return;
+            var form = new ComponentForm(_selectProduct);
+            form.ShowDialog();
+        }
+
+        private void MenuItem_Delete(object sender, RoutedEventArgs e)
+        {
+            if (_selectProduct == null) return;
+            _viewModel.Delete(_selectProduct.Id);
+        }
+
         private void ProductsTreeView_OnSelected(object sender, RoutedEventArgs e)
         {
             if (!(e.OriginalSource is TreeViewItem item)) return;
@@ -53,7 +70,6 @@ namespace ComponentTree
                 var products = selectedClass.ProductCollection;
                 
             }
-            _selectedItem = item;
         }
     }
 }
