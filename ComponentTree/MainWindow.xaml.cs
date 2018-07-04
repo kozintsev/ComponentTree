@@ -44,7 +44,9 @@ namespace ComponentTree
 
         private void MenuItem_CreateReport(object sender, RoutedEventArgs e)
         {
-            
+            if (_selectProduct == null) return;
+            // todo: получаем список для вывода в MS Word / LibreOffice или куда-то ещё
+            var list = _viewModel.SearchSpecification(_selectProduct.Id);
         }
 
         private void MenuItem_Rename(object sender, RoutedEventArgs e)

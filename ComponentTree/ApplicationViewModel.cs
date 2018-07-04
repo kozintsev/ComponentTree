@@ -22,6 +22,37 @@ namespace ComponentTree
             }
         }
 
+        private static ObservableCollection<Product> Find(long id, ObservableCollection<Product> listProducts)
+        {
+            foreach (var product in listProducts)
+            {
+                if (product.Id == id)
+                    return product.ProductCollection;
+                var find = Find(id, product.ProductCollection);
+                if (find != null)
+                    return find;
+            }
+            return null;
+        }
+
+        /// <summary>
+        /// Формируем список для вывода в отчёт. Ищем вниз по дереву рекурсивно
+        /// </summary>
+        /// <param name="id"></param>
+        public ObservableCollection<Product> SearchSpecification(long id)
+        {
+            ObservableCollection<Product> pr = null;
+            foreach (var product in Products)
+            {
+                if (product.Id == id)
+                {
+                    return product.ProductCollection;
+                }
+                pr = Find(id, product.ProductCollection);
+            }
+            return pr;
+        }
+
         /// <summary>
         /// Метод для загрузки дерева в память. Необходимо оптимизация! Оптимально подгружать дерево по мере раскрытия дерева
         /// с автоподгрузкой 1-2 уровней
