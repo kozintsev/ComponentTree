@@ -57,12 +57,28 @@ namespace ComponentTree
         /// Метод для загрузки дерева в память. Необходимо оптимизация! Оптимально подгружать дерево по мере раскрытия дерева
         /// с автоподгрузкой 1-2 уровней
         /// </summary>
-        /// <param name="components"></param>
-        public void LazyTreeLoader(List<Model.Component> components)
+        /// <param name="context"></param>
+        /// <param name="component"></param>
+        /// <param name="product"></param>
+        public void LazyTreeLoader(Components context, Model.Component component , Product product)
         {
-            foreach (var item in components)
+            var linkChildren = context.Link.Where(x => x.IdParent == component.Id).ToList();
+            product.ProductCollection = new ObservableCollection<Product>();
+
+            foreach (var link in linkChildren)
             {
-                
+                // одна связь связывает 1 компонент
+                var childComponent = context.Component.FirstOrDefault(x => x.Id == link.IdChild);
+                if (childComponent == null) continue;
+                var p = new Product
+                {
+                    Id = childComponent.Id,
+                    Designation = childComponent.Designation,
+                    Name = childComponent.Name,
+                    Quantity = link.Quantity
+                };
+                product.ProductCollection.Add(p);
+                LazyTreeLoader(context, childComponent, p);
             }
         }
 
@@ -128,14 +144,16 @@ namespace ComponentTree
                     {
                         // одна связь связывает 1 компонент
                         var childComponent = context.Component.FirstOrDefault(x => x.Id == link.IdChild);
-                        if (childComponent != null)
-                            prodColl.Add(new Product
-                            {
-                                Id = childComponent.Id,
-                                Designation = childComponent.Designation,
-                                Name = childComponent.Name,
-                                Quantity = link.Quantity
-                            });
+                        if (childComponent == null) continue;
+                        var p = new Product
+                        {
+                            Id = childComponent.Id,
+                            Designation = childComponent.Designation,
+                            Name = childComponent.Name,
+                            Quantity = link.Quantity
+                        };
+                        prodColl.Add(p);
+                        LazyTreeLoader(context, childComponent, p);
                     }
 
                     Products.Add(new Product
