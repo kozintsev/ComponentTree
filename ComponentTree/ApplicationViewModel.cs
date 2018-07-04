@@ -102,7 +102,8 @@ namespace ComponentTree
                             {
                                 Id = childComponent.Id,
                                 Designation = childComponent.Designation,
-                                Name = childComponent.Name
+                                Name = childComponent.Name,
+                                Quantity = link.Quantity
                             });
                     }
 
@@ -110,12 +111,12 @@ namespace ComponentTree
                     {
                         Designation = component.Designation,
                         Name = component.Name,
-                        ProductCollection = prodColl
+                        ProductCollection = prodColl,
+                        Quantity = rootLink.Quantity
                     });
 
                     // todo: тут мы должны получать детей-детей рекурсивно и добавлять их в
                     // Products для этого можно использовать метод LazyTreeLoader
-
                 }
             }
             context.Dispose();

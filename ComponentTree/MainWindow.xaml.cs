@@ -32,7 +32,6 @@ namespace ComponentTree
             if (form.Product == null) return;
             _viewModel.Products.Add(form.Product);
             CollectionViewSource.GetDefaultView(ProductsTreeView.ItemsSource).Refresh();
-
         }
 
         private void MenuItem_Add(object sender, RoutedEventArgs e)
