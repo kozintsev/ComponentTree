@@ -38,8 +38,16 @@ namespace ComponentTree
         {
             // получить Id выьранного элемента, запустить форму с этим парамметром
             if (_selectProduct == null) return;
-            var form = new ComponentForm(_selectProduct.Id);
-            form.ShowDialog();
+            var form = new ComponentForm(_selectProduct, true);
+            var result = form.ShowDialog();
+
+            if (!result.HasValue) return;
+            if (!result.Value) return;
+
+            if (form.Product == null) return;
+            _viewModel.Products.Add(form.Product);
+
+            CollectionViewSource.GetDefaultView(ProductsTreeView.ItemsSource).Refresh();
         }
 
         private void MenuItem_CreateReport(object sender, RoutedEventArgs e)
@@ -52,7 +60,7 @@ namespace ComponentTree
         private void MenuItem_Rename(object sender, RoutedEventArgs e)
         {
             if (_selectProduct == null) return;
-            var form = new ComponentForm(_selectProduct);
+            var form = new ComponentForm(_selectProduct, false, true);
             form.ShowDialog();
         }
 

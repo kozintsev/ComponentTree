@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.Collections.ObjectModel;
+using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
 using ComponentTree.Model;
@@ -27,27 +28,19 @@ namespace ComponentTree
         }
 
         /// <summary>
-        /// Создать объект
-        /// </summary>
-        /// <param name="parentId"></param>
-        public ComponentForm(long parentId)
-        {
-            InitializeComponent();
-            _parentId = parentId;
-            Product = null;
-            _isRename = false;
-        }
-        
-        /// <summary>
         /// Переименовать
         /// </summary>
         /// <param name="product"></param>
-        public ComponentForm(Product product)
+        /// <param name="isAdd"></param>
+        /// <param name="isRename"></param>
+        public ComponentForm(Product product, bool isAdd = false, bool isRename = false)
         {
             InitializeComponent();
             Product = product;
-            _parentId = null;
-            _isRename = true;
+            if (isAdd) _parentId = product.Id;
+                else
+                _parentId = null;
+            _isRename = isRename;
 
             tbDes.Text = product.Designation;
             tbName.Text = product.Name;
@@ -100,6 +93,23 @@ namespace ComponentTree
             context.Link.Add(link);
 
             await context.SaveChangesAsync();
+
+            var product = new Product
+            {
+                Designation = designation,
+                Name = name,
+                Quantity = q
+            };
+
+            if (Product.ProductCollection != null)
+            {
+                Product.ProductCollection.Add(product);
+            }
+            else
+            {
+                Product.ProductCollection = new ObservableCollection<Product> {product};
+            }
+
         }
 
         private static async Task Rename(string designation, string name)

@@ -9,18 +9,7 @@ namespace ComponentTree
 {
     public class ApplicationViewModel : INotifyPropertyChanged
     {
-        private Product _selectedProduct;
-
         public ObservableCollection<Product> Products { get; set; }
-        public Product SelectedProduct
-        {
-            get => _selectedProduct;
-            set
-            {
-                _selectedProduct = value;
-                OnPropertyChanged(@"SelectedProduct");
-            }
-        }
 
         private static ObservableCollection<Product> Find(long id, ObservableCollection<Product> listProducts)
         {
@@ -158,6 +147,7 @@ namespace ComponentTree
 
                     Products.Add(new Product
                     {
+                        Id = component.Id,
                         Designation = component.Designation,
                         Name = component.Name,
                         ProductCollection = prodColl,
