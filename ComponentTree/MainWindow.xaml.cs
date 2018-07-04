@@ -44,9 +44,6 @@ namespace ComponentTree
             if (!result.HasValue) return;
             if (!result.Value) return;
 
-            if (form.Product == null) return;
-            _viewModel.Products.Add(form.Product);
-
             CollectionViewSource.GetDefaultView(ProductsTreeView.ItemsSource).Refresh();
         }
 
@@ -61,7 +58,12 @@ namespace ComponentTree
         {
             if (_selectProduct == null) return;
             var form = new ComponentForm(_selectProduct, false, true);
-            form.ShowDialog();
+            var result = form.ShowDialog();
+
+            if (!result.HasValue) return;
+            if (!result.Value) return;
+
+            CollectionViewSource.GetDefaultView(ProductsTreeView.ItemsSource).Refresh();
         }
 
         private void MenuItem_Delete(object sender, RoutedEventArgs e)

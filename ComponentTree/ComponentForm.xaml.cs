@@ -41,7 +41,7 @@ namespace ComponentTree
                 else
                 _parentId = null;
             _isRename = isRename;
-
+            if (!isRename) return;
             tbDes.Text = product.Designation;
             tbName.Text = product.Name;
             TbQ.IsEnabled = false;
@@ -75,8 +75,6 @@ namespace ComponentTree
             {
                 com = find;
             }
-
-            Product = new Product { Id = com.Id, Designation = com.Designation, Name = com.Name };
 
             var link = new Link
             {
@@ -112,7 +110,7 @@ namespace ComponentTree
 
         }
 
-        private static async Task Rename(string designation, string name)
+        private async Task Rename(string designation, string name)
         {
             using (var context = new Components())
             {
@@ -122,6 +120,8 @@ namespace ComponentTree
                     find.Designation = designation;
                     find.Name = name;
                     await context.SaveChangesAsync();
+                    Product.Designation = designation;
+                    Product.Name = name;
                 }
             }
         }
