@@ -25,6 +25,8 @@ namespace ComponentTree
             _parentId = null;
             Product = new Product();
             _isRename = false;
+            TbQ.Visibility = Visibility.Hidden;
+            LabelQ.Visibility = Visibility.Hidden;
         }
 
         /// <summary>
