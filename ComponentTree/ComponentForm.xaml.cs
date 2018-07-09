@@ -23,7 +23,7 @@ namespace ComponentTree
         {
             InitializeComponent();
             _parentId = null;
-            Product = null;
+            Product = new Product();
             _isRename = false;
         }
 
