@@ -78,6 +78,12 @@ namespace ComponentTree
                 com = find;
             }
 
+            if (_parentId == com.Id)
+            {
+                LabelMessage.Content = "Элемент не может ссылаться на себя";
+                return;
+            }
+
             var link = new Link
             {
                 IdParent = _parentId,
