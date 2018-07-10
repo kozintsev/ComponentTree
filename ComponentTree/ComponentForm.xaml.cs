@@ -73,7 +73,8 @@ namespace ComponentTree
                     var res = await _viewModel.Create(designation, name, result);
                     if (res != string.Empty)
                     {
-                        //LabelMessage.Content = res;
+                        // выводим сообщение (автоматом так как есть биндинг) и возвращаемся к вводу
+                        return;
                     }
                 }
             }
