@@ -75,7 +75,7 @@ namespace ComponentTree
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(prop));
         }
 
-        public async Task Create(string designation, string name, int q)
+        public async Task<string> Create(string designation, string name, int q)
         {
             var context = new Components();
 
@@ -102,8 +102,10 @@ namespace ComponentTree
             if (_parentId == com.Id)
             {
                 Message = "Элемент не может ссылаться на себя";
-                return;
+                return Message;
             }
+
+            //todo: нет проверки, когда есть связь элемента А с Б, но мы создаём точно такую же связь, должно возникать сообщение или увеличение колличества
 
             var link = new Link
             {
@@ -136,7 +138,7 @@ namespace ComponentTree
             {
                 Product.ProductCollection = new ObservableCollection<Product> { product };
             }
-
+            return string.Empty;
         }
 
         public async Task Rename(string designation, string name)

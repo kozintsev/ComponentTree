@@ -9,7 +9,7 @@ namespace ComponentTree
     public partial class ComponentForm
     {
         private readonly bool _isRename;
-        private readonly ComponentViewModel _viewModel;
+        private ComponentViewModel _viewModel;
 
         /// <summary>
         /// Создаём корневой объект
@@ -20,7 +20,6 @@ namespace ComponentTree
             _isRename = false;
             TbQ.Visibility = Visibility.Hidden;
             LabelQ.Visibility = Visibility.Hidden;
-            _viewModel = (ComponentViewModel) DataContext;
         }
 
         /// <summary>
@@ -32,7 +31,6 @@ namespace ComponentTree
         public ComponentForm(Product product, bool isAdd = false, bool isRename = false)
         {
             InitializeComponent();
-            _viewModel = (ComponentViewModel)DataContext;
             _isRename = isRename;
             if (!isRename) return;
             TbDes.Text = product.Designation;
@@ -62,16 +60,22 @@ namespace ComponentTree
             var designation = TbDes.Text.Trim();
             var name = TbName.Text.Trim();
 
-            _viewModel.Designation = designation;
-            _viewModel.Name = name;
+            _viewModel = DataContext as ComponentViewModel;
 
             if (_isRename)
             {
-                await _viewModel.Rename(designation, name);
+                if (_viewModel != null) await _viewModel.Rename(designation, name);
             }
             else
             {
-                await _viewModel.Create(designation, name, result);
+                if (_viewModel != null)
+                {
+                    var res = await _viewModel.Create(designation, name, result);
+                    if (res != string.Empty)
+                    {
+                        //LabelMessage.Content = res;
+                    }
+                }
             }
             DialogResult = true;
             Close();
