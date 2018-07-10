@@ -79,6 +79,7 @@
     <Compile Include="ComponentForm.xaml.cs">
       <DependentUpon>ComponentForm.xaml</DependentUpon>
     </Compile>
+    <Compile Include="ComponentViewModel.cs" />
     <Compile Include="Model\Component.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
