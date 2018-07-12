@@ -24,13 +24,18 @@ namespace ComponentTree
 
         private void MenuItem_AddRoot(object sender, RoutedEventArgs e)
         {
-            var form = new ComponentForm();
+            var cvm = new ComponentViewModel();
+            var form = new ComponentForm
+            {
+                DataContext = cvm,
+                Owner = this
+            };
             var result = form.ShowDialog();
             if(!result.HasValue) return;
             if(!result.Value) return;
 
-            if (form.Product == null) return;
-            _viewModel.Products.Add(form.Product);
+            if (cvm.Product == null) return;
+            _viewModel.Products.Add(cvm.Product);
             CollectionViewSource.GetDefaultView(ProductsTreeView.ItemsSource).Refresh();
         }
 
@@ -38,12 +43,18 @@ namespace ComponentTree
         {
             // получить Id выьранного элемента, запустить форму с этим парамметром
             if (_selectProduct == null) return;
-            var form = new ComponentForm(_selectProduct, true);
+            var cvm = new ComponentViewModel(_selectProduct, true);
+            var form = new ComponentForm(_selectProduct, true)
+            {
+                DataContext = cvm,
+                Owner = this
+            };
             var result = form.ShowDialog();
 
             if (!result.HasValue) return;
             if (!result.Value) return;
 
+            _selectProduct.ProductCollection.Add(cvm.Product);
             CollectionViewSource.GetDefaultView(ProductsTreeView.ItemsSource).Refresh();
         }
 
@@ -57,7 +68,11 @@ namespace ComponentTree
         private void MenuItem_Rename(object sender, RoutedEventArgs e)
         {
             if (_selectProduct == null) return;
-            var form = new ComponentForm(_selectProduct, false, true);
+            var form = new ComponentForm(_selectProduct, false, true)
+            {
+                DataContext = new ComponentViewModel(_selectProduct, false, true),
+                Owner = this
+            };
             var result = form.ShowDialog();
 
             if (!result.HasValue) return;
