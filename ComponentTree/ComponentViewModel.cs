@@ -131,14 +131,8 @@ namespace ComponentTree
                 Quantity = q
             };
 
-            if (Product.ProductCollection != null)
-            {
-                Product.ProductCollection.Add(product);
-            }
-            else
-            {
-                Product.ProductCollection = new ObservableCollection<Product> { product };
-            }
+            Product = product;
+
             return string.Empty;
         }
 

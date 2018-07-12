@@ -43,9 +43,10 @@ namespace ComponentTree
         {
             // получить Id выьранного элемента, запустить форму с этим парамметром
             if (_selectProduct == null) return;
+            var cvm = new ComponentViewModel(_selectProduct, true);
             var form = new ComponentForm(_selectProduct, true)
             {
-                DataContext = new ComponentViewModel(_selectProduct, true),
+                DataContext = cvm,
                 Owner = this
             };
             var result = form.ShowDialog();
@@ -53,6 +54,7 @@ namespace ComponentTree
             if (!result.HasValue) return;
             if (!result.Value) return;
 
+            _selectProduct.ProductCollection.Add(cvm.Product);
             CollectionViewSource.GetDefaultView(ProductsTreeView.ItemsSource).Refresh();
         }
 
